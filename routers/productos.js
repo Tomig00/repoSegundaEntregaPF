@@ -2,7 +2,6 @@ const express = require('express')
 const Producto = require('../daos/productoDaos')
 const routerProductos = express.Router()
 
-//let producto = new Object()
 
 routerProductos.get('/:id', async (req, res) => {   
     const num = req.params.id

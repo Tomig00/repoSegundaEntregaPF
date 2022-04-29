@@ -1,5 +1,5 @@
 const express = require('express')
-const Producto = require('../daos/productoDaos')
+const {productosDaos: Producto} = require('../daos/mainDaos')
 const routerProductos = express.Router()
 
 

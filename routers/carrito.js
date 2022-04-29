@@ -1,107 +1,120 @@
 const express = require('express')
-const {ContenedorCarrito} = require('../api')
+const {carritoDaos: Carrito} = require('../daos/mainDaos')
 const routerCarrito = express.Router()
 
-let carrito = new Object()
-routerCarrito.post('/', function(req, res){
-    const test = new ContenedorCarrito()
+const Carro = new Carrito()
 
-    carrito.title = req.body.title
-
-    let id = test.crear(carrito)
-    console.log(`carritoAgregadoConId: ${id}`)
-    res.json({carritoAgregadoConId: `${id}`})
-}
-);
-
-routerCarrito.delete('/:id', function(req, res){
-    const num = req.params.id
-    const test = new ContenedorCarrito()
-    let id = parseInt(num)
-
-    test.deleteById(id).then(function(result) {
-        res.end(`<h1 style = 'color:blue;'> CARRITO ELIMINADO</h1>${JSON.stringify(result)}`)
-    })
-    console.log(`carritoBorrado`)
-}
-);
-
-routerCarrito.get('/:id/productos', function(req, res){
-    const num = req.params.id
-            if (isNaN(num))
-            {
-                res.json({ error : 'El parametro no es un numero entero' })
-            }else{
-                id = parseInt(num)
-            const test = new ContenedorCarrito()
-        
-            test.getById(id).then(function(result) {
-                if (result === null)
-                {
-                    res.json({ error : 'carrito no encontrado' })
-                }else
-                {
-                    res.end(`<h1 style = 'color:blue;'> PRODUCTOS EN EL CARRITO</h1>${JSON.stringify(result)}`)
-                }
-            });
-            } 
-}
-);
-
-
-routerCarrito.post('/:id/productos', function(req, res){
-
-    const num = req.params.id
-            if (isNaN(num))
-            {
-                res.json({ error : 'el parametro no es un numero' })
-            }else{
-                id = parseInt(num)
-            const test = new ContenedorCarrito()
-        
-            test.getByIdProducto(id).then(function(result) 
-            {
-                if (result === null)
-                {
-                    res.json({ error : 'producto no encontrado' })
-                }else
-                {
-                    test.addProducto(result).then(function(resultFin) {
-                        res.json({resultFin})
-                    });
-                }
-            });
-            
-    } 
-}
-);
-
-
-routerCarrito.delete('/:id/productos/:id_prod', function(req, res){
-    const num = req.params.id
-    const Num = req.params.id_prod
-
-    if (isNaN(num))
-    {
-        res.json({ error : 'el parametro no es un numero' })
-    }
-    else
-    {
-        id = parseInt(num)
-        const test = new ContenedorCarrito()
-
-    
-            idCarrito = parseInt(num)
-            idProd = parseInt(Num)
-            test.delteProductoById(idCarrito,idProd).then(function(resultFin) {
-                res.json({resultFin})
+routerCarrito.post('/', async function(req, res){
+    try {
+        const carrito = await Carro.newCarrito()
+        res.status(200).send({
+            status: 200,
+            data: {
+                carrito,
+            },
+            message:'carrito agregado'
             })
-            .catch(function(resultError){res.json({resultError})});
-            console.log(`Producto de carrito borrado`)
+    } catch (error) {
+        res.status(500).send({
+            status: 500,
+            message: error.message
+        })
+    }
+}
+);
+
+routerCarrito.delete('/:id', async function(req, res){
+    const num = req.params.id
+    try {
+        const borrado = await Carro.deleteCarritoById(num)
+        res.status(200).send({
+            status: 200,
+            data: {
+                borrado,
+            },
+            message:'carrito borrado'
+            })
+    } catch (error) {
+        res.status(500).send({
+            status: 500,
+            message: error.message
+        })
+    }
+}
+);
+
+
+
+
+routerCarrito.post('/productos', async function(req, res){
         
+    try {
+            let idCarrito = req.body.idCart
+            let idProducto = req.body.idP
+            const agregado = await Carro.agregarProducto(idCarrito, idProducto)
+            res.status(200).send({
+                status: 200,
+                data: {
+                    agregado,
+                },
+                message:'producto agregado a carrito'
+                })
+        } catch (error) {
+            res.status(500).send({
+                status: 500,
+                message: error.message
+            })
+        }
+            
+            
+});
+
+
+routerCarrito.delete('/productoEliminar', async function(req, res){
+
+    try {
+        let idCarrito = req.body.idCart
+        let idProducto = req.body.idP
+        const agregado = await Carro.deleteProductoDeCarrito(idCarrito, idProducto)
+        res.status(200).send({
+            status: 200,
+            data: {
+                agregado,
+            },
+            message:'producto agregado a carrito'
+            })
+    } catch (error) {
+        res.status(500).send({
+            status: 500,
+            message: error.message
+        })
     }
     
 }
 );
 
 module.exports = routerCarrito
+
+
+
+// routerCarrito.get('/:id/productos', function(req, res){
+//     const num = req.params.id
+//             if (isNaN(num))
+//             {
+//                 res.json({ error : 'El parametro no es un numero entero' })
+//             }else{
+//                 id = parseInt(num)
+//             const test = new ContenedorCarrito()
+        
+//             test.getById(id).then(function(result) {
+//                 if (result === null)
+//                 {
+//                     res.json({ error : 'carrito no encontrado' })
+//                 }else
+//                 {
+//                     res.end(`<h1 style = 'color:blue;'> PRODUCTOS EN EL CARRITO</h1>${JSON.stringify(result)}`)
+//                 }
+//             });
+//             } 
+// }
+// );

@@ -7,7 +7,8 @@ const esquemaProducto = new mongoose.Schema({
     thumnail: {type: String, require: true},
     stock: {type: Number, require: true},
     idP: {type: Number, require: true},
-    time: {type: String, require: true}
+    idC: {type: Number, require: false},
+    time: {type: String, require: false}
 })
 
 module.exports = mongoose.model('productos', esquemaProducto)

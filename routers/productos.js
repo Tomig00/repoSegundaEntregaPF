@@ -130,7 +130,7 @@ routerProductos.delete('/:id', function(req, res, next){
             data: { 
                 borrar,
             },
-            message:'producto actualizado'
+            message:'producto eliminado'
             })
     } catch (error) {
         res.status(500).send({
@@ -143,23 +143,4 @@ routerProductos.delete('/:id', function(req, res, next){
 
 module.exports = routerProductos
 
-// routerProductos.post('/', async function(req, res){
-//     try {
-//         const prod = new Producto()
-        
-//         console.log(req.body)
-//         const id = await prod.save(req.body)
-//         res.status(200).send({
-//             status: 200,
-//             data: {
-//                 id
-//             },
-//             message:'producto agregado'
-//             })
-//     } catch (error) {
-//         res.status(500).send({
-//             status: 500,
-//             message: error.message
-//         })
-//     }
-// });
+

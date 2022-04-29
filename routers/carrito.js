@@ -81,7 +81,7 @@ routerCarrito.delete('/productoEliminar', async function(req, res){
             data: {
                 agregado,
             },
-            message:'producto agregado a carrito'
+            message:'producto eliminado del carrito'
             })
     } catch (error) {
         res.status(500).send({
@@ -96,25 +96,3 @@ routerCarrito.delete('/productoEliminar', async function(req, res){
 module.exports = routerCarrito
 
 
-
-// routerCarrito.get('/:id/productos', function(req, res){
-//     const num = req.params.id
-//             if (isNaN(num))
-//             {
-//                 res.json({ error : 'El parametro no es un numero entero' })
-//             }else{
-//                 id = parseInt(num)
-//             const test = new ContenedorCarrito()
-        
-//             test.getById(id).then(function(result) {
-//                 if (result === null)
-//                 {
-//                     res.json({ error : 'carrito no encontrado' })
-//                 }else
-//                 {
-//                     res.end(`<h1 style = 'color:blue;'> PRODUCTOS EN EL CARRITO</h1>${JSON.stringify(result)}`)
-//                 }
-//             });
-//             } 
-// }
-// );

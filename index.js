@@ -1,7 +1,7 @@
 const express = require('express')
 const routerProductos = require('./routers/productos')
 const routerCarrito = require('./routers/carrito')
-const routerAdmin = require('./routers/admin')
+//const routerAdmin = require('./routers/admin')
 
 const app = express()
 let acceso = true

@@ -56,7 +56,7 @@ class Carrito {
     }
 
 
-    async deleteProductoDeCarrito(idCarrito, idProducto) {
+    async deleteProductoDeCarrito(idCarrito, idProducto, idEnCarrito) {
         try {
             function random(min, max) {
                 return Math.floor((Math.random() * (max - min + 1)) + min);
@@ -69,9 +69,7 @@ class Carrito {
             const query = db.collection('carritos')
             const doc = query.doc(idCarrito)
 
-            let idrand = random(1,10000)
-
-            productoAtlas.idC = "5968"
+            productoAtlas.idC = idEnCarrito
 
             const item = await doc.update({
                 productos: admin.firestore.FieldValue.arrayRemove(String(productoAtlas))

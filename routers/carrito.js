@@ -23,7 +23,7 @@ routerCarrito.post('/', async function(req, res){
 }
 );
 
-routerCarrito.delete('/:id', async function(req, res){
+routerCarrito.delete('/carrito/:id', async function(req, res){
     const num = req.params.id
     try {
         const borrado = await Carro.deleteCarritoById(num)
@@ -40,8 +40,7 @@ routerCarrito.delete('/:id', async function(req, res){
             message: error.message
         })
     }
-}
-);
+});
 
 
 
@@ -70,12 +69,13 @@ routerCarrito.post('/productos', async function(req, res){
 });
 
 
-routerCarrito.delete('/productoEliminar', async function(req, res){
-
+routerCarrito.delete('/eliminarProducto/:idC', async function(req, res){
+    const idCart = req.params.idC
     try {
         let idCarrito = req.body.idCart
         let idProducto = req.body.idP
-        const agregado = await Carro.deleteProductoDeCarrito(idCarrito, idProducto)
+        let idEnCarrito = idCart
+        const agregado = await Carro.deleteProductoDeCarrito(idCarrito, idProducto, idEnCarrito)
         res.status(200).send({
             status: 200,
             data: {
